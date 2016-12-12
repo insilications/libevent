@@ -5,3 +5,4 @@
 openssl-dev
 openssl-dev32
 zlib-dev32
+openssl-lib32
