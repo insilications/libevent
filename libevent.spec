@@ -4,7 +4,7 @@
 #
 Name     : libevent
 Version  : 2.0.22
-Release  : 15
+Release  : 16
 URL      : http://downloads.sourceforge.net/levent/libevent-2.0.22-stable.tar.gz
 Source0  : http://downloads.sourceforge.net/levent/libevent-2.0.22-stable.tar.gz
 Summary  : libevent_pthreads adds pthreads-based threading support to libevent
@@ -13,7 +13,6 @@ License  : BSD-3-Clause
 Requires: libevent-bin
 Requires: libevent-lib
 BuildRequires : openssl-dev
-BuildRequires : pkgconfig(zlib)
 BuildRequires : sed
 
 %description
@@ -36,6 +35,7 @@ Summary: dev components for the libevent package.
 Group: Development
 Requires: libevent-lib
 Requires: libevent-bin
+Provides: libevent-devel
 
 %description dev
 dev components for the libevent package.
@@ -53,10 +53,15 @@ lib components for the libevent package.
 %setup -q -n libevent-2.0.22-stable
 
 %build
+export LANG=C
 %configure --disable-static --disable-libevent-regress
-make V=1 %{?_smp_mflags}
+make V=1  %{?_smp_mflags}
 
 %check
+export LANG=C
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
@@ -98,9 +103,24 @@ rm -rf %{buildroot}
 /usr/include/event2/tag_compat.h
 /usr/include/event2/thread.h
 /usr/include/event2/util.h
-/usr/lib64/*.so
-/usr/lib64/pkgconfig/*.pc
+/usr/lib64/libevent.so
+/usr/lib64/libevent_core.so
+/usr/lib64/libevent_extra.so
+/usr/lib64/libevent_openssl.so
+/usr/lib64/libevent_pthreads.so
+/usr/lib64/pkgconfig/libevent.pc
+/usr/lib64/pkgconfig/libevent_openssl.pc
+/usr/lib64/pkgconfig/libevent_pthreads.pc
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/*.so.*
+/usr/lib64/libevent-2.0.so.5
+/usr/lib64/libevent-2.0.so.5.1.9
+/usr/lib64/libevent_core-2.0.so.5
+/usr/lib64/libevent_core-2.0.so.5.1.9
+/usr/lib64/libevent_extra-2.0.so.5
+/usr/lib64/libevent_extra-2.0.so.5.1.9
+/usr/lib64/libevent_openssl-2.0.so.5
+/usr/lib64/libevent_openssl-2.0.so.5.1.9
+/usr/lib64/libevent_pthreads-2.0.so.5
+/usr/lib64/libevent_pthreads-2.0.so.5.1.9
