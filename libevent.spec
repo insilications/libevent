@@ -4,7 +4,7 @@
 #
 Name     : libevent
 Version  : 2.0.22
-Release  : 16
+Release  : 17
 URL      : http://downloads.sourceforge.net/levent/libevent-2.0.22-stable.tar.gz
 Source0  : http://downloads.sourceforge.net/levent/libevent-2.0.22-stable.tar.gz
 Summary  : libevent_pthreads adds pthreads-based threading support to libevent
@@ -12,7 +12,13 @@ Group    : Development/Tools
 License  : BSD-3-Clause
 Requires: libevent-bin
 Requires: libevent-lib
+BuildRequires : gcc-dev32
+BuildRequires : gcc-libgcc32
+BuildRequires : gcc-libstdc++32
+BuildRequires : glibc-dev32
+BuildRequires : glibc-libc32
 BuildRequires : openssl-dev
+BuildRequires : openssl-dev32
 BuildRequires : sed
 
 %description
@@ -41,6 +47,16 @@ Provides: libevent-devel
 dev components for the libevent package.
 
 
+%package dev32
+Summary: dev32 components for the libevent package.
+Group: Default
+Requires: libevent-lib32
+Requires: libevent-bin
+
+%description dev32
+dev32 components for the libevent package.
+
+
 %package lib
 Summary: lib components for the libevent package.
 Group: Libraries
@@ -49,14 +65,32 @@ Group: Libraries
 lib components for the libevent package.
 
 
+%package lib32
+Summary: lib32 components for the libevent package.
+Group: Default
+
+%description lib32
+lib32 components for the libevent package.
+
+
 %prep
 %setup -q -n libevent-2.0.22-stable
+pushd ..
+cp -a libevent-2.0.22-stable build32
+popd
 
 %build
 export LANG=C
 %configure --disable-static --disable-libevent-regress
 make V=1  %{?_smp_mflags}
 
+pushd ../build32/
+export CFLAGS="$CFLAGS -m32"
+export CXXFLAGS="$CXXFLAGS -m32"
+export LDFLAGS="$LDFLAGS -m32"
+%configure --disable-static --disable-libevent-regress  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+make V=1  %{?_smp_mflags}
+popd
 %check
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
@@ -66,6 +100,15 @@ make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
 rm -rf %{buildroot}
+pushd ../build32/
+%make_install32
+if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
+then
+pushd %{buildroot}/usr/lib32/pkgconfig
+for i in *.pc ; do mv $i 32$i ; done
+popd
+fi
+popd
 %make_install
 
 %files
@@ -112,6 +155,15 @@ rm -rf %{buildroot}
 /usr/lib64/pkgconfig/libevent_openssl.pc
 /usr/lib64/pkgconfig/libevent_pthreads.pc
 
+%files dev32
+%defattr(-,root,root,-)
+/usr/lib32/libevent.so
+/usr/lib32/libevent_core.so
+/usr/lib32/libevent_extra.so
+/usr/lib32/libevent_pthreads.so
+/usr/lib32/pkgconfig/32libevent.pc
+/usr/lib32/pkgconfig/32libevent_pthreads.pc
+
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libevent-2.0.so.5
@@ -124,3 +176,14 @@ rm -rf %{buildroot}
 /usr/lib64/libevent_openssl-2.0.so.5.1.9
 /usr/lib64/libevent_pthreads-2.0.so.5
 /usr/lib64/libevent_pthreads-2.0.so.5.1.9
+
+%files lib32
+%defattr(-,root,root,-)
+/usr/lib32/libevent-2.0.so.5
+/usr/lib32/libevent-2.0.so.5.1.9
+/usr/lib32/libevent_core-2.0.so.5
+/usr/lib32/libevent_core-2.0.so.5.1.9
+/usr/lib32/libevent_extra-2.0.so.5
+/usr/lib32/libevent_extra-2.0.so.5.1.9
+/usr/lib32/libevent_pthreads-2.0.so.5
+/usr/lib32/libevent_pthreads-2.0.so.5.1.9
