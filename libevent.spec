@@ -4,7 +4,7 @@
 #
 Name     : libevent
 Version  : 2.0.22
-Release  : 21
+Release  : 22
 URL      : http://downloads.sourceforge.net/levent/libevent-2.0.22-stable.tar.gz
 Source0  : http://downloads.sourceforge.net/levent/libevent-2.0.22-stable.tar.gz
 Summary  : libevent_pthreads adds pthreads-based threading support to libevent
