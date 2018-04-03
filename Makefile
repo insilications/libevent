@@ -1,5 +1,5 @@
 PKG_NAME := libevent
-URL := http://downloads.sourceforge.net/levent/libevent-2.0.22-stable.tar.gz
-
+URL = https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz
+ARCHIVES = 
 
 include ../common/Makefile.common
