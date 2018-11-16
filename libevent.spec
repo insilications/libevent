@@ -4,14 +4,15 @@
 #
 Name     : libevent
 Version  : 2.1.8.stable
-Release  : 26
+Release  : 27
 URL      : https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz
 Source0  : https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz
 Summary  : libevent is an asynchronous notification event loop library
 Group    : Development/Tools
 License  : MIT
-Requires: libevent-bin
-Requires: libevent-lib
+Requires: libevent-bin = %{version}-%{release}
+Requires: libevent-lib = %{version}-%{release}
+Requires: libevent-license = %{version}-%{release}
 BuildRequires : gcc-dev32
 BuildRequires : gcc-libgcc32
 BuildRequires : gcc-libstdc++32
@@ -20,6 +21,7 @@ BuildRequires : glibc-libc32
 BuildRequires : openssl-dev
 BuildRequires : openssl-dev32
 BuildRequires : openssl-lib32
+BuildRequires : pkg-config
 BuildRequires : sed
 BuildRequires : zlib-dev32
 
@@ -29,6 +31,7 @@ No detailed description available
 %package bin
 Summary: bin components for the libevent package.
 Group: Binaries
+Requires: libevent-license = %{version}-%{release}
 
 %description bin
 bin components for the libevent package.
@@ -37,9 +40,9 @@ bin components for the libevent package.
 %package dev
 Summary: dev components for the libevent package.
 Group: Development
-Requires: libevent-lib
-Requires: libevent-bin
-Provides: libevent-devel
+Requires: libevent-lib = %{version}-%{release}
+Requires: libevent-bin = %{version}-%{release}
+Provides: libevent-devel = %{version}-%{release}
 
 %description dev
 dev components for the libevent package.
@@ -48,9 +51,9 @@ dev components for the libevent package.
 %package dev32
 Summary: dev32 components for the libevent package.
 Group: Default
-Requires: libevent-lib32
-Requires: libevent-bin
-Requires: libevent-dev
+Requires: libevent-lib32 = %{version}-%{release}
+Requires: libevent-bin = %{version}-%{release}
+Requires: libevent-dev = %{version}-%{release}
 
 %description dev32
 dev32 components for the libevent package.
@@ -59,6 +62,7 @@ dev32 components for the libevent package.
 %package lib
 Summary: lib components for the libevent package.
 Group: Libraries
+Requires: libevent-license = %{version}-%{release}
 
 %description lib
 lib components for the libevent package.
@@ -67,9 +71,18 @@ lib components for the libevent package.
 %package lib32
 Summary: lib32 components for the libevent package.
 Group: Default
+Requires: libevent-license = %{version}-%{release}
 
 %description lib32
 lib32 components for the libevent package.
+
+
+%package license
+Summary: license components for the libevent package.
+Group: Default
+
+%description license
+license components for the libevent package.
 
 
 %prep
@@ -83,7 +96,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1526010456
+export SOURCE_DATE_EPOCH=1542401465
 export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -93,6 +106,7 @@ make  %{?_smp_mflags}
 
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export ASFLAGS="$ASFLAGS --32"
 export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
@@ -105,10 +119,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
+cd ../build32;
+make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1526010456
+export SOURCE_DATE_EPOCH=1542401465
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/libevent
+cp LICENSE %{buildroot}/usr/share/package-licenses/libevent/LICENSE
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -210,3 +228,7 @@ popd
 /usr/lib32/libevent_openssl-2.1.so.6.0.2
 /usr/lib32/libevent_pthreads-2.1.so.6
 /usr/lib32/libevent_pthreads-2.1.so.6.0.2
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/libevent/LICENSE
