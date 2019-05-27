@@ -1,4 +1,5 @@
 Configure miss: WIN32
+Configure miss: MIDIPIX
 Configure miss: CYGWIN
 Configure miss: netinet/in6.h usability
 Configure miss: netinet/in6.h presence
@@ -14,12 +15,12 @@ Configure miss: sys/event.h presence
 Configure miss: sys/event.h
 Configure miss: whether KERN_ARND is declared
 Configure miss: arc4random
-Configure miss: waitpid support WNOWAIT
+Configure miss: arc4random_addrandom
 Configure miss: port_create
 Configure miss: struct sockaddr_in6.sin6_len
 Configure miss: struct sockaddr_storage.__ss_family
-Configure miss: struct so_linger
 Configure miss: WIN32
+Configure miss: MIDIPIX
 Configure miss: CYGWIN
 Configure miss: netinet/in6.h usability
 Configure miss: netinet/in6.h presence
@@ -35,8 +36,7 @@ Configure miss: sys/event.h presence
 Configure miss: sys/event.h
 Configure miss: whether KERN_ARND is declared
 Configure miss: arc4random
-Configure miss: waitpid support WNOWAIT
+Configure miss: arc4random_addrandom
 Configure miss: port_create
 Configure miss: struct sockaddr_in6.sin6_len
 Configure miss: struct sockaddr_storage.__ss_family
-Configure miss: struct so_linger

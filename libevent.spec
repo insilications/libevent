@@ -5,14 +5,14 @@
 # Source0 file verified with key 0xB86086848EF8686D (bin@azat.sh)
 #
 Name     : libevent
-Version  : 2.1.8.stable
-Release  : 28
-URL      : https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz
-Source0  : https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz
-Source99 : https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz.asc
+Version  : 2.1.10.stable
+Release  : 29
+URL      : https://github.com/libevent/libevent/releases/download/release-2.1.10-stable/libevent-2.1.10-stable.tar.gz
+Source0  : https://github.com/libevent/libevent/releases/download/release-2.1.10-stable/libevent-2.1.10-stable.tar.gz
+Source99 : https://github.com/libevent/libevent/releases/download/release-2.1.10-stable/libevent-2.1.10-stable.tar.gz.asc
 Summary  : libevent is an asynchronous notification event loop library
 Group    : Development/Tools
-License  : MIT
+License  : BSD-3-Clause MIT
 Requires: libevent-bin = %{version}-%{release}
 Requires: libevent-lib = %{version}-%{release}
 Requires: libevent-license = %{version}-%{release}
@@ -47,6 +47,7 @@ Group: Development
 Requires: libevent-lib = %{version}-%{release}
 Requires: libevent-bin = %{version}-%{release}
 Provides: libevent-devel = %{version}-%{release}
+Requires: libevent = %{version}-%{release}
 Requires: libevent = %{version}-%{release}
 
 %description dev
@@ -91,10 +92,10 @@ license components for the libevent package.
 
 
 %prep
-%setup -q -n libevent-2.1.8-stable
+%setup -q -n libevent-2.1.10-stable
 %patch1 -p1
 pushd ..
-cp -a libevent-2.1.8-stable build32
+cp -a libevent-2.1.10-stable build32
 popd
 
 %build
@@ -102,11 +103,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1554996013
-export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export SOURCE_DATE_EPOCH=1558939530
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
+export FCFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
+export FFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
+export CXXFLAGS="$CXXFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
 %configure --disable-static --disable-libevent-regress
 make  %{?_smp_mflags}
 
@@ -129,10 +133,12 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1554996013
+export SOURCE_DATE_EPOCH=1558939530
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libevent
 cp LICENSE %{buildroot}/usr/share/package-licenses/libevent/LICENSE
+cp cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/libevent/cmake_COPYING-CMAKE-SCRIPTS
+cp cmake/Copyright.txt %{buildroot}/usr/share/package-licenses/libevent/cmake_Copyright.txt
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -212,29 +218,31 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libevent-2.1.so.6
-/usr/lib64/libevent-2.1.so.6.0.2
+/usr/lib64/libevent-2.1.so.6.0.4
 /usr/lib64/libevent_core-2.1.so.6
-/usr/lib64/libevent_core-2.1.so.6.0.2
+/usr/lib64/libevent_core-2.1.so.6.0.4
 /usr/lib64/libevent_extra-2.1.so.6
-/usr/lib64/libevent_extra-2.1.so.6.0.2
+/usr/lib64/libevent_extra-2.1.so.6.0.4
 /usr/lib64/libevent_openssl-2.1.so.6
-/usr/lib64/libevent_openssl-2.1.so.6.0.2
+/usr/lib64/libevent_openssl-2.1.so.6.0.4
 /usr/lib64/libevent_pthreads-2.1.so.6
-/usr/lib64/libevent_pthreads-2.1.so.6.0.2
+/usr/lib64/libevent_pthreads-2.1.so.6.0.4
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libevent-2.1.so.6
-/usr/lib32/libevent-2.1.so.6.0.2
+/usr/lib32/libevent-2.1.so.6.0.4
 /usr/lib32/libevent_core-2.1.so.6
-/usr/lib32/libevent_core-2.1.so.6.0.2
+/usr/lib32/libevent_core-2.1.so.6.0.4
 /usr/lib32/libevent_extra-2.1.so.6
-/usr/lib32/libevent_extra-2.1.so.6.0.2
+/usr/lib32/libevent_extra-2.1.so.6.0.4
 /usr/lib32/libevent_openssl-2.1.so.6
-/usr/lib32/libevent_openssl-2.1.so.6.0.2
+/usr/lib32/libevent_openssl-2.1.so.6.0.4
 /usr/lib32/libevent_pthreads-2.1.so.6
-/usr/lib32/libevent_pthreads-2.1.so.6.0.2
+/usr/lib32/libevent_pthreads-2.1.so.6.0.4
 
 %files license
 %defattr(0644,root,root,0755)
 /usr/share/package-licenses/libevent/LICENSE
+/usr/share/package-licenses/libevent/cmake_COPYING-CMAKE-SCRIPTS
+/usr/share/package-licenses/libevent/cmake_Copyright.txt
