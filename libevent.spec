@@ -6,10 +6,10 @@
 #
 Name     : libevent
 Version  : 2.1.10.stable
-Release  : 29
+Release  : 30
 URL      : https://github.com/libevent/libevent/releases/download/release-2.1.10-stable/libevent-2.1.10-stable.tar.gz
 Source0  : https://github.com/libevent/libevent/releases/download/release-2.1.10-stable/libevent-2.1.10-stable.tar.gz
-Source99 : https://github.com/libevent/libevent/releases/download/release-2.1.10-stable/libevent-2.1.10-stable.tar.gz.asc
+Source1 : https://github.com/libevent/libevent/releases/download/release-2.1.10-stable/libevent-2.1.10-stable.tar.gz.asc
 Summary  : libevent is an asynchronous notification event loop library
 Group    : Development/Tools
 License  : BSD-3-Clause MIT
@@ -47,7 +47,6 @@ Group: Development
 Requires: libevent-lib = %{version}-%{release}
 Requires: libevent-bin = %{version}-%{release}
 Provides: libevent-devel = %{version}-%{release}
-Requires: libevent = %{version}-%{release}
 Requires: libevent = %{version}-%{release}
 
 %description dev
@@ -102,29 +101,30 @@ popd
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1558939530
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1568862111
+export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
-export FCFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
-export FFLAGS="$CFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
-export CXXFLAGS="$CXXFLAGS -O3 -fcf-protection=full -ffat-lto-objects -flto=4 -fstack-protector-strong "
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static --disable-libevent-regress
 make  %{?_smp_mflags}
 
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
-export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32"
-export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32"
-export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
+export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
+export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
+export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 %configure --disable-static --disable-libevent-regress   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}
 popd
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -133,7 +133,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1558939530
+export SOURCE_DATE_EPOCH=1568862111
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libevent
 cp LICENSE %{buildroot}/usr/share/package-licenses/libevent/LICENSE
@@ -159,7 +159,8 @@ popd
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/*.h
+/usr/include/evdns.h
+/usr/include/event.h
 /usr/include/event2/buffer.h
 /usr/include/event2/buffer_compat.h
 /usr/include/event2/bufferevent.h
@@ -186,6 +187,9 @@ popd
 /usr/include/event2/thread.h
 /usr/include/event2/util.h
 /usr/include/event2/visibility.h
+/usr/include/evhttp.h
+/usr/include/evrpc.h
+/usr/include/evutil.h
 /usr/lib64/libevent.so
 /usr/lib64/libevent_core.so
 /usr/lib64/libevent_extra.so
