@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xB86086848EF8686D (bin@azat.sh)
 #
 Name     : libevent
-Version  : 2.1.11.stable
-Release  : 31
-URL      : https://github.com/libevent/libevent/releases/download/release-2.1.11-stable/libevent-2.1.11-stable.tar.gz
-Source0  : https://github.com/libevent/libevent/releases/download/release-2.1.11-stable/libevent-2.1.11-stable.tar.gz
-Source1  : https://github.com/libevent/libevent/releases/download/release-2.1.11-stable/libevent-2.1.11-stable.tar.gz.asc
+Version  : 2.1.12.stable
+Release  : 32
+URL      : https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz
+Source0  : https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz
+Source1  : https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz.asc
 Summary  : libevent is an asynchronous notification event loop library
 Group    : Development/Tools
 License  : BSD-3-Clause MIT
@@ -93,11 +93,11 @@ license components for the libevent package.
 
 
 %prep
-%setup -q -n libevent-2.1.11-stable
-cd %{_builddir}/libevent-2.1.11-stable
+%setup -q -n libevent-2.1.12-stable
+cd %{_builddir}/libevent-2.1.12-stable
 %patch1 -p1
 pushd ..
-cp -a libevent-2.1.11-stable build32
+cp -a libevent-2.1.12-stable build32
 popd
 
 %build
@@ -105,14 +105,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1579287324
+export SOURCE_DATE_EPOCH=1595266258
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static --disable-libevent-regress
 make  %{?_smp_mflags}
@@ -136,12 +136,12 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1579287324
+export SOURCE_DATE_EPOCH=1595266258
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libevent
-cp %{_builddir}/libevent-2.1.11-stable/LICENSE %{buildroot}/usr/share/package-licenses/libevent/0f375374b877550ade2e001905a1f9c9b7128714
-cp %{_builddir}/libevent-2.1.11-stable/cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/libevent/cc31ae51223e291f3f7389a4c96b2cf4c1e62757
-cp %{_builddir}/libevent-2.1.11-stable/cmake/Copyright.txt %{buildroot}/usr/share/package-licenses/libevent/b7708e46727dc00ced77b6421d1f4b4e4045c12d
+cp %{_builddir}/libevent-2.1.12-stable/LICENSE %{buildroot}/usr/share/package-licenses/libevent/0f375374b877550ade2e001905a1f9c9b7128714
+cp %{_builddir}/libevent-2.1.12-stable/cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/libevent/cc31ae51223e291f3f7389a4c96b2cf4c1e62757
+cp %{_builddir}/libevent-2.1.12-stable/cmake/Copyright.txt %{buildroot}/usr/share/package-licenses/libevent/b7708e46727dc00ced77b6421d1f4b4e4045c12d
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -225,28 +225,28 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libevent-2.1.so.7
-/usr/lib64/libevent-2.1.so.7.0.0
+/usr/lib64/libevent-2.1.so.7.0.1
 /usr/lib64/libevent_core-2.1.so.7
-/usr/lib64/libevent_core-2.1.so.7.0.0
+/usr/lib64/libevent_core-2.1.so.7.0.1
 /usr/lib64/libevent_extra-2.1.so.7
-/usr/lib64/libevent_extra-2.1.so.7.0.0
+/usr/lib64/libevent_extra-2.1.so.7.0.1
 /usr/lib64/libevent_openssl-2.1.so.7
-/usr/lib64/libevent_openssl-2.1.so.7.0.0
+/usr/lib64/libevent_openssl-2.1.so.7.0.1
 /usr/lib64/libevent_pthreads-2.1.so.7
-/usr/lib64/libevent_pthreads-2.1.so.7.0.0
+/usr/lib64/libevent_pthreads-2.1.so.7.0.1
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libevent-2.1.so.7
-/usr/lib32/libevent-2.1.so.7.0.0
+/usr/lib32/libevent-2.1.so.7.0.1
 /usr/lib32/libevent_core-2.1.so.7
-/usr/lib32/libevent_core-2.1.so.7.0.0
+/usr/lib32/libevent_core-2.1.so.7.0.1
 /usr/lib32/libevent_extra-2.1.so.7
-/usr/lib32/libevent_extra-2.1.so.7.0.0
+/usr/lib32/libevent_extra-2.1.so.7.0.1
 /usr/lib32/libevent_openssl-2.1.so.7
-/usr/lib32/libevent_openssl-2.1.so.7.0.0
+/usr/lib32/libevent_openssl-2.1.so.7.0.1
 /usr/lib32/libevent_pthreads-2.1.so.7
-/usr/lib32/libevent_pthreads-2.1.so.7.0.0
+/usr/lib32/libevent_pthreads-2.1.so.7.0.1
 
 %files license
 %defattr(0644,root,root,0755)

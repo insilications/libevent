@@ -1,6 +1,9 @@
 Configure miss: WIN32
 Configure miss: MIDIPIX
 Configure miss: CYGWIN
+Configure miss: mach/mach.h usability
+Configure miss: mach/mach.h presence
+Configure miss: mach/mach.h
 Configure miss: netinet/in6.h usability
 Configure miss: netinet/in6.h presence
 Configure miss: netinet/in6.h
@@ -13,7 +16,9 @@ Configure miss: sys/devpoll.h
 Configure miss: sys/event.h usability
 Configure miss: sys/event.h presence
 Configure miss: sys/event.h
-Configure miss: whether KERN_ARND is declared
+Configure miss: afunix.h usability
+Configure miss: afunix.h presence
+Configure miss: afunix.h
 Configure miss: arc4random
 Configure miss: arc4random_addrandom
 Configure miss: port_create
@@ -22,6 +27,9 @@ Configure miss: struct sockaddr_storage.__ss_family
 Configure miss: WIN32
 Configure miss: MIDIPIX
 Configure miss: CYGWIN
+Configure miss: mach/mach.h usability
+Configure miss: mach/mach.h presence
+Configure miss: mach/mach.h
 Configure miss: netinet/in6.h usability
 Configure miss: netinet/in6.h presence
 Configure miss: netinet/in6.h
@@ -34,7 +42,9 @@ Configure miss: sys/devpoll.h
 Configure miss: sys/event.h usability
 Configure miss: sys/event.h presence
 Configure miss: sys/event.h
-Configure miss: whether KERN_ARND is declared
+Configure miss: afunix.h usability
+Configure miss: afunix.h presence
+Configure miss: afunix.h
 Configure miss: arc4random
 Configure miss: arc4random_addrandom
 Configure miss: port_create
