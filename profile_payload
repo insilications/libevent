@@ -22,13 +22,13 @@ export LIBVA_DRIVERS_PATH=/usr/lib64/dri
 export GTK_RC_FILES=/etc/gtk/gtkrc
 export FONTCONFIG_PATH=/usr/share/defaults/fonts
 pushd test/
-./test-ratelim.sh
-./bench
-./bench_cascade
-./bench_http & pid1=$!; \
+./test-ratelim.sh || :
+./bench || :
+./bench_cascade || :
+./bench_http & pid1=$! || :; \
 sleep 3s; \
-./bench_httpclient; \
+./bench_httpclient || :; \
 sleep 1s; \
-kill -s TERM $pid1;
+kill -s TERM $pid1 || :;
 popd
 make -j16 verify V=1 VERBOSE=1 || :
