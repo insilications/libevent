@@ -11,6 +11,8 @@ Source0  : file:///aot/build/clearlinux/packages/libevent/libevent-v2.1.12.tar.g
 Summary  : libevent is an asynchronous notification event loop library
 Group    : Development/Tools
 License  : GPL-2.0
+Requires: libevent-bin = %{version}-%{release}
+Requires: libevent-lib = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : doxygen
 BuildRequires : gcc
@@ -46,6 +48,62 @@ Patch1: pcfiles.patch
 <img src="https://libevent.org/libevent3.png" alt="libevent logo"/>
 </p>
 
+%package bin
+Summary: bin components for the libevent package.
+Group: Binaries
+
+%description bin
+bin components for the libevent package.
+
+
+%package dev
+Summary: dev components for the libevent package.
+Group: Development
+Requires: libevent-lib = %{version}-%{release}
+Requires: libevent-bin = %{version}-%{release}
+Provides: libevent-devel = %{version}-%{release}
+Requires: libevent = %{version}-%{release}
+
+%description dev
+dev components for the libevent package.
+
+
+%package dev32
+Summary: dev32 components for the libevent package.
+Group: Default
+Requires: libevent-lib32 = %{version}-%{release}
+Requires: libevent-bin = %{version}-%{release}
+Requires: libevent-dev = %{version}-%{release}
+
+%description dev32
+dev32 components for the libevent package.
+
+
+%package lib
+Summary: lib components for the libevent package.
+Group: Libraries
+
+%description lib
+lib components for the libevent package.
+
+
+%package lib32
+Summary: lib32 components for the libevent package.
+Group: Default
+
+%description lib32
+lib32 components for the libevent package.
+
+
+%package staticdev
+Summary: staticdev components for the libevent package.
+Group: Default
+Requires: libevent-dev = %{version}-%{release}
+
+%description staticdev
+staticdev components for the libevent package.
+
+
 %prep
 %setup -q -n libevent
 cd %{_builddir}/libevent
@@ -60,7 +118,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1629802466
+export SOURCE_DATE_EPOCH=1629802922
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -211,14 +269,14 @@ export LIBVA_DRIVERS_PATH=/usr/lib64/dri
 export GTK_RC_FILES=/etc/gtk/gtkrc
 export FONTCONFIG_PATH=/usr/share/defaults/fonts
 pushd test/
-./test-ratelim.sh
-./bench
-./bench_cascade
-./bench_http & pid1=$!; \
+./test-ratelim.sh || :
+./bench || :
+./bench_cascade || :
+./bench_http & pid1=$! || :; \
 sleep 3s; \
-./bench_httpclient; \
+./bench_httpclient || :; \
 sleep 1s; \
-kill -s TERM $pid1;
+kill -s TERM $pid1 || :;
 popd
 make -j16 verify V=1 VERBOSE=1 || :
 export LD_LIBRARY_PATH="/usr/nvidia/lib64:/usr/nvidia/lib64/vdpau:/usr/nvidia/lib64/xorg/modules/drivers:/usr/nvidia/lib64/xorg/modules/extensions:/usr/local/cuda/lib64:/usr/lib64/haswell:/usr/lib64/haswell/pulseaudio:/usr/lib64/haswell/alsa-lib:/usr/lib64/haswell/gstreamer-1.0:/usr/lib64/haswell/pipewire-0.3:/usr/lib64/haswell/spa-0.2:/usr/lib64/dri:/usr/lib64/chromium:/usr/lib64:/usr/lib64/pulseaudio:/usr/lib64/alsa-lib:/usr/lib64/gstreamer-1.0:/usr/lib64/pipewire-0.3:/usr/lib64/spa-0.2:/usr/lib:/aot/intel/oneapi/compiler/latest/linux/compiler/lib/intel64_lin:/aot/intel/oneapi/compiler/latest/linux/lib:/aot/intel/oneapi/mkl/latest/lib/intel64:/aot/intel/oneapi/tbb/latest/lib/intel64/gcc4.8:/usr/share:/usr/lib64/wine:/usr/nvidia/lib32:/usr/nvidia/lib32/vdpau:/usr/lib32:/usr/lib32/wine"
@@ -300,7 +358,7 @@ make  %{?_smp_mflags}    V=1 VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1629802466
+export SOURCE_DATE_EPOCH=1629802922
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -315,3 +373,104 @@ popd
 
 %files
 %defattr(-,root,root,-)
+
+%files bin
+%defattr(-,root,root,-)
+/usr/bin/event_rpcgen.py
+
+%files dev
+%defattr(-,root,root,-)
+/usr/include/evdns.h
+/usr/include/event.h
+/usr/include/event2/buffer.h
+/usr/include/event2/buffer_compat.h
+/usr/include/event2/bufferevent.h
+/usr/include/event2/bufferevent_compat.h
+/usr/include/event2/bufferevent_ssl.h
+/usr/include/event2/bufferevent_struct.h
+/usr/include/event2/dns.h
+/usr/include/event2/dns_compat.h
+/usr/include/event2/dns_struct.h
+/usr/include/event2/event-config.h
+/usr/include/event2/event.h
+/usr/include/event2/event_compat.h
+/usr/include/event2/event_struct.h
+/usr/include/event2/http.h
+/usr/include/event2/http_compat.h
+/usr/include/event2/http_struct.h
+/usr/include/event2/keyvalq_struct.h
+/usr/include/event2/listener.h
+/usr/include/event2/rpc.h
+/usr/include/event2/rpc_compat.h
+/usr/include/event2/rpc_struct.h
+/usr/include/event2/tag.h
+/usr/include/event2/tag_compat.h
+/usr/include/event2/thread.h
+/usr/include/event2/util.h
+/usr/include/event2/visibility.h
+/usr/include/event2/watch.h
+/usr/include/evhttp.h
+/usr/include/evrpc.h
+/usr/include/evutil.h
+/usr/lib64/libevent.so
+/usr/lib64/libevent_core.so
+/usr/lib64/libevent_extra.so
+/usr/lib64/libevent_openssl.so
+/usr/lib64/libevent_pthreads.so
+/usr/lib64/pkgconfig/libevent.pc
+/usr/lib64/pkgconfig/libevent_core.pc
+/usr/lib64/pkgconfig/libevent_extra.pc
+/usr/lib64/pkgconfig/libevent_openssl.pc
+/usr/lib64/pkgconfig/libevent_pthreads.pc
+
+%files dev32
+%defattr(-,root,root,-)
+/usr/lib32/libevent.so
+/usr/lib32/libevent_core.so
+/usr/lib32/libevent_extra.so
+/usr/lib32/libevent_openssl.so
+/usr/lib32/libevent_pthreads.so
+/usr/lib32/pkgconfig/32libevent.pc
+/usr/lib32/pkgconfig/32libevent_core.pc
+/usr/lib32/pkgconfig/32libevent_extra.pc
+/usr/lib32/pkgconfig/32libevent_openssl.pc
+/usr/lib32/pkgconfig/32libevent_pthreads.pc
+/usr/lib32/pkgconfig/libevent.pc
+/usr/lib32/pkgconfig/libevent_core.pc
+/usr/lib32/pkgconfig/libevent_extra.pc
+/usr/lib32/pkgconfig/libevent_openssl.pc
+/usr/lib32/pkgconfig/libevent_pthreads.pc
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib64/libevent-2.2.so.1
+/usr/lib64/libevent-2.2.so.1.0.0
+/usr/lib64/libevent_core-2.2.so.1
+/usr/lib64/libevent_core-2.2.so.1.0.0
+/usr/lib64/libevent_extra-2.2.so.1
+/usr/lib64/libevent_extra-2.2.so.1.0.0
+/usr/lib64/libevent_openssl-2.2.so.1
+/usr/lib64/libevent_openssl-2.2.so.1.0.0
+/usr/lib64/libevent_pthreads-2.2.so.1
+/usr/lib64/libevent_pthreads-2.2.so.1.0.0
+
+%files lib32
+%defattr(-,root,root,-)
+/usr/lib32/libevent-2.2.so.1
+/usr/lib32/libevent-2.2.so.1.0.0
+/usr/lib32/libevent_core-2.2.so.1
+/usr/lib32/libevent_core-2.2.so.1.0.0
+/usr/lib32/libevent_extra-2.2.so.1
+/usr/lib32/libevent_extra-2.2.so.1.0.0
+/usr/lib32/libevent_openssl-2.2.so.1
+/usr/lib32/libevent_openssl-2.2.so.1.0.0
+/usr/lib32/libevent_pthreads-2.2.so.1
+/usr/lib32/libevent_pthreads-2.2.so.1.0.0
+
+%files staticdev
+%defattr(-,root,root,-)
+/usr/lib64/libevent.a
+/usr/lib64/libevent_core.a
+/usr/lib64/libevent_extra.a
+/usr/lib64/libevent_openssl.a
+/usr/lib64/libevent_pthreads.a
