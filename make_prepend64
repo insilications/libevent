@@ -1,0 +1,21 @@
+# find . -type f -name 'Makefile' -exec sed -i 's:-lssl\b:-Wl,--whole-archive,--as-needed,/usr/lib64/libssl.a,-lpthread,-ldl,-lm,-lmvec,--no-whole-archive:g' {} \;
+# find . -type f -name 'Makefile' -exec sed -i 's:-lcrypto\b:-Wl,--whole-archive,--as-needed,/usr/lib64/libcrypto.a,-lpthread,-ldl,-lm,-lmvec,--no-whole-archive:g' {} \;
+# find . -type f -name 'Makefile' -exec sed -i 's:-lnghttp2\b:-Wl,--whole-archive,--as-needed,/usr/lib64/libnghttp2.a,-lpthread,-ldl,-lm,-lmvec,--no-whole-archive:g' {} \;
+# find . -type f -name 'Makefile' -exec sed -i 's:-lsqlite3\b:-Wl,--whole-archive,--as-needed,/usr/lib64/libsqlite3.a,-lpthread,-ldl,-lm,-lmvec,--no-whole-archive:g' {} \;
+# find . -type f -name 'Makefile' -exec sed -i 's:-lidn2\b:-Wl,--whole-archive,--as-needed,/usr/lib64/libidn2.a,/usr/lib64/libunistring.a,-lpthread,-ldl,-lm,-lmvec,--no-whole-archive:g' {} \;
+# find . -type f -name 'Makefile' -exec sed -i 's:-lunistring\b:-Wl,--whole-archive,--as-needed,/usr/lib64/libunistring.a,-lpthread,-ldl,-lm,-lmvec,--no-whole-archive:g' {} \;
+# find . -type f -name 'Makefile' -exec sed -i 's:-lbrotlidec\b:-Wl,--whole-archive,--as-needed,/usr/lib64/libbrotlidec-static.a,/usr/lib64/libbrotlicommon-static.a,-lpthread,-ldl,-lm,-lmvec,--no-whole-archive:g' {} \;
+# find . -type f -name 'Makefile' -exec sed -i 's:-lzstd\b:-Wl,--whole-archive,--as-needed,/usr/lib64/libzstd.a,-lpthread,-ldl,-lm,-lmvec,--no-whole-archive:g' {} \;
+# find . -type f -name 'Makefile' -exec sed -i 's:-lz\b:-Wl,--whole-archive,--as-needed,/usr/lib64/libz.a,-lpthread,-ldl,-lm,-lmvec,--no-whole-archive:g' {} \;
+# find . -type f -name 'Makefile' -exec sed -i 's:-lssl\b:/usr/lib64/libssl.a:g' {} \;
+# find . -type f -name 'Makefile' -exec sed -i 's:-lcrypto\b:/usr/lib64/libcrypto.a:g' {} \;
+# find . -type f -name 'Makefile' -exec sed -i 's:-lnghttp2\b:/usr/lib64/libnghttp2.a:g' {} \;
+# find . -type f -name 'Makefile' -exec sed -i 's:-lsqlite3\b:/usr/lib64/libsqlite3.a:g' {} \;
+# find . -type f -name 'Makefile' -exec sed -i 's:-lidn2\b:/usr/lib64/libidn2.a /usr/lib64/libunistring.a:g' {} \;
+# find . -type f -name 'Makefile' -exec sed -i 's:-lunistring\b:/usr/lib64/libunistring.a:g' {} \;
+# find . -type f -name 'Makefile' -exec sed -i 's:-lbrotlidec\b:/usr/lib64/libbrotlidec-static.a /usr/lib64/libbrotlicommon-static.a:g' {} \;
+# find . -type f -name 'Makefile' -exec sed -i 's:-lzstd\b:/usr/lib64/libzstd.a:g' {} \;
+# find . -type f -name 'Makefile' -exec sed -i 's:-lz\b:/usr/lib64/libz.a:g' {} \;
+# sd "\-lz" -- "/usr/lib64/libz.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$)
+sd "\-lssl" -- "-Wl,--whole-archive,--start-group,/usr/lib64/libssl.a,/usr/lib64/libcrypto.a,/usr/lib64/libz.a,--end-group,--no-whole-archive" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$)
+# sd "\-lcrypto" -- "/usr/lib64/libcrypto.a" $(fd -uu --follow .*Makefile$) $(fd -uu --follow .*pro$) $(fd -uu --follow .*mk$)

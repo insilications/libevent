@@ -1,0 +1,6 @@
+--enable-shared
+--disable-static
+--disable-gcc-warnings
+--disable-doxygen-doc
+--disable-samples
+--enable-thread-support
