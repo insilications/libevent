@@ -2,3 +2,4 @@
 avahi-dev
 libevent-dev
 libevent-dev32
+libevent-staticdev
