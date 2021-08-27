@@ -6241,7 +6241,6 @@ libevent_openssl-2.2.so.1:dtls1_ctrl
 libevent_openssl-2.2.so.1:dtls1_default_timeout
 libevent_openssl-2.2.so.1:dtls1_dispatch_alert
 libevent_openssl-2.2.so.1:dtls1_do_write
-libevent_openssl-2.2.so.1:dtls1_double_timeout
 libevent_openssl-2.2.so.1:dtls1_free
 libevent_openssl-2.2.so.1:dtls1_get_bitmap
 libevent_openssl-2.2.so.1:dtls1_get_message_header
@@ -7070,6 +7069,7 @@ libevent_openssl-2.2.so.1:ssl_get_max_send_fragment
 libevent_openssl-2.2.so.1:ssl_get_min_max_version
 libevent_openssl-2.2.so.1:ssl_get_new_session
 libevent_openssl-2.2.so.1:ssl_get_prev_session
+libevent_openssl-2.2.so.1:ssl_get_security_level_bits
 libevent_openssl-2.2.so.1:ssl_get_server_cert_serverinfo
 libevent_openssl-2.2.so.1:ssl_get_split_send_fragment
 libevent_openssl-2.2.so.1:ssl_handshake_hash
@@ -7334,6 +7334,7 @@ libevent_openssl-2.2.so.1:x509_init_sig_info
 libevent_openssl-2.2.so.1:x509_likely_issued
 libevent_openssl-2.2.so.1:x509_set1_time
 libevent_openssl-2.2.so.1:x509_signing_allowed
+libevent_openssl-2.2.so.1:x509v3_add_len_value_uchar
 libevent_openssl-2.2.so.1:x86_check_features
 libevent_openssl-2.2.so.1:xor128_decrypt_n_pad
 libevent_openssl-2.2.so.1:xor128_encrypt_n_pad
