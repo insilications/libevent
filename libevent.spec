@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : libevent
 Version  : 2.1.12
-Release  : 303
+Release  : 304
 URL      : file:///aot/build/clearlinux/packages/libevent/libevent-v2.1.12.tar.gz
 Source0  : file:///aot/build/clearlinux/packages/libevent/libevent-v2.1.12.tar.gz
 Summary  : libevent is an asynchronous notification event loop library
@@ -118,7 +118,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1629851811
+export SOURCE_DATE_EPOCH=1630026719
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -358,7 +358,7 @@ make  %{?_smp_mflags}    V=1 VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1629851811
+export SOURCE_DATE_EPOCH=1630026719
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
